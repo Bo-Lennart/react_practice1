@@ -12,19 +12,31 @@ class StatefullGreeting extends React.Component {
     }
 
     handleClick() {
-        this.setState({
-            introduction: this.state.introduction === "Hello!" ? "Goodbye!" : "Hello!",
-            buttonText: this.state.introduction === "Enter" ? "Enter" : "Exit",
-        }, ()=> {
-            console.log('NEW STATE', this.state.introduction);
-            console.log('NEW STATE', this.state.buttonText);
-        });
+        this.setState((prevState, prevProps) => {
+            console.log('Previous state:', prevState)
+            console.log('Previous props:', prevProps)
+            return {
+                introduction: prevState.introduction === "Hello!" ? "Goodbye!" : "Hello!",
+                buttonText: prevState.buttonText === "Exit" ? "Enter" : "Exit"
+            }
+        })
     }
 
     incrementClick() {
-        this.setState({
-            count: this.state.count + 1
+        this.setState((prevState, prevProps) => {
+            console.log('Previous state:', prevState)
+            console.log('Previous props:', prevProps)
+            return {
+                count: prevState.count + 1
+            }
         })
+    }
+    incrementFive() {
+            this.incrementClick()
+            this.incrementClick()
+            this.incrementClick()
+            this.incrementClick()
+            this.incrementClick()
     }
 
     render() {
@@ -34,8 +46,8 @@ class StatefullGreeting extends React.Component {
                 <button onClick={() => this.handleClick()}>
                     {this.state.buttonText}
                 </button>
-                <button onClick={() => this.incrementClick()}>
-                    Increment
+                <button onClick={() => this.incrementFive()}>
+                    Increment Five
                     </button>
                 <p>You clicked {this.state.count} times</p>
             </div>
